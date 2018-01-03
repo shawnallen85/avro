@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Confluent.Apache.Avro</id>
+    <version>$version$</version>
+    <title>Fork of Apache.Avro maintained by Confluent</title>
+    <authors>Apache Software Foundation, Confluent Inc.</authors>
+    <owners>Confluent Inc.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Fork of Apache.Avro</description>
+    <releaseNotes>Apache.Avro with modern dependencies</releaseNotes>
+    <copyright>Copyright 2012 The Apache Software Foundation, 2018 Confluent Inc.</copyright>
+    <tags>Apache Avro</tags>
+  </metadata>
+</package>
