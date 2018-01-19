@@ -764,7 +764,7 @@ namespace Avro
             // create function call Schema.Parse(json)
             var cpe = new CodePrimitiveExpression(schema.ToString());
             var cmie = new CodeMethodInvokeExpression(
-                new CodeMethodReferenceExpression(new CodeTypeReferenceExpression(typeof(Schema)), "Parse"),
+                new CodeMethodReferenceExpression(new CodeTypeReferenceExpression("Schema"), "Parse"),
                 new CodeExpression[] { cpe });
             codeField.InitExpression = cmie;
             ctd.Members.Add(codeField);
