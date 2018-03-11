@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Authors>Apache Software Foundation, Confluent Inc.</Authors>
@@ -11,14 +11,17 @@
     <Title>Confluent.Apache.Avro.test</Title>
     <AssemblyName>Confluent.Apache.Avro.test</AssemblyName>
     <VersionPrefix>1.7.7.4</VersionPrefix>
-    <TargetFrameworks>net452</TargetFrameworks>
+    <TargetFrameworks>net461</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NUnit" Version="2.6.4" />
+    <PackageReference Include="NUnit.Runners" Version="2.6.4" />
+    <PackageReference Include="Microsoft.NET.Test.SDK" Version="15.6.1" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <ProjectReference Include="../main/Avro.main.csproj" />
+    <ProjectReference Include="../ipc/Avro.ipc.csproj" />
   </ItemGroup>
 
 </Project>
