@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -112,7 +112,8 @@ namespace Avro.Test
 
             var comparam = new CompilerParameters(new string[] { "mscorlib.dll" });
             comparam.ReferencedAssemblies.Add("System.dll");
-            comparam.ReferencedAssemblies.Add("Avro.dll");
+            comparam.ReferencedAssemblies.Add("netstandard.dll");
+            comparam.ReferencedAssemblies.Add("Confluent.Apache.Avro.dll");
             comparam.GenerateInMemory = true;
             var ccp = new CSharpCodeProvider();
             var units = new[] { compileUnit };

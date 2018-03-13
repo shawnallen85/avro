@@ -8,7 +8,7 @@
     <PackageReleaseNotes>https://github.com/confluentinc/confluent-kafka-dotnet/releases</PackageReleaseNotes>
     <PackageTags>apache;avro;perf</PackageTags>
     <PackageId>Confluent.Apache.Avro.perf</PackageId>
-    <Title>Confluent.Apache.Avro.main</Title>
+    <Title>Confluent.Apache.Avro.perf</Title>
     <AssemblyName>Confluent.Apache.Avro.perf</AssemblyName>
     <VersionPrefix>1.7.7.4</VersionPrefix>
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
