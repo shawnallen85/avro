@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Authors>Apache Software Foundation, Confluent Inc.</Authors>
-    <Description>Fork of Apache.Avro maintained by Confluent</Description>
+    <Description>Fork of Apache.Avro.codegen maintained by Confluent</Description>
     <Copyright>Apache Foundation</Copyright>
     <PackageIconUrl>https://raw.githubusercontent.com/confluentinc/confluent-kafka-dotnet/master/confluent_logo.png</PackageIconUrl>
     <PackageReleaseNotes>https://github.com/confluentinc/confluent-kafka-dotnet/releases</PackageReleaseNotes>
