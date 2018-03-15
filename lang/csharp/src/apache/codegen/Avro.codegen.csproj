@@ -2,16 +2,18 @@
 
   <PropertyGroup>
     <Authors>Apache Software Foundation, Confluent Inc.</Authors>
-    <Description>Fork of Apache.Avro.codegen maintained by Confluent</Description>
+    <Description>Fork of the Apache Avro avrogen.exe tool, maintained by Confluent</Description>
     <Copyright>Apache Foundation</Copyright>
     <PackageIconUrl>https://raw.githubusercontent.com/confluentinc/confluent-kafka-dotnet/master/confluent_logo.png</PackageIconUrl>
     <PackageReleaseNotes>https://github.com/confluentinc/confluent-kafka-dotnet/releases</PackageReleaseNotes>
-    <PackageTags>apache;avro</PackageTags>
-    <PackageId>Confluent.Apache.Avro.codegen</PackageId>
-    <Title>Confluent.Apache.Avro.codegen</Title>
-    <AssemblyName>Confluent.Apache.Avro.codegen</AssemblyName>
+    <PackageTags>apache;avro;avrogen;avrogen.exe</PackageTags>
+    <PackageId>Confluent.Apache.Avro.AvroGen</PackageId>
+    <Title>Confluent.Apache.Avro.AvroGen</Title>
+    <AssemblyName>Confluent.Apache.Avro.AvroGen</AssemblyName>
     <VersionPrefix>1.7.7.4</VersionPrefix>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
