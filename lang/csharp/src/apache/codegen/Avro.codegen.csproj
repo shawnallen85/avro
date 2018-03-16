@@ -9,7 +9,7 @@
     <PackageTags>apache;avro;avrogen;avrogen.exe</PackageTags>
     <PackageId>Confluent.Apache.Avro.AvroGen</PackageId>
     <Title>Confluent.Apache.Avro.AvroGen</Title>
-    <AssemblyName>Confluent.Apache.Avro.AvroGen</AssemblyName>
+    <AssemblyName>avrogen</AssemblyName>
     <VersionPrefix>1.7.7.4</VersionPrefix>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <OutputType>Exe</OutputType>
