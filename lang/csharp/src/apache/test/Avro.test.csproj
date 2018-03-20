@@ -20,7 +20,7 @@
     <Description>Fork of Apache.Avro.test maintained by Confluent</Description>
     <Copyright>Apache Foundation</Copyright>
     <PackageIconUrl>https://raw.githubusercontent.com/confluentinc/confluent-kafka-dotnet/master/confluent_logo.png</PackageIconUrl>
-    <PackageReleaseNotes>https://github.com/confluentinc/confluent-kafka-dotnet/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/confluentinc/avro/releases</PackageReleaseNotes>
     <PackageTags>apache;avro;test</PackageTags>
     <PackageId>Confluent.Apache.Avro.test</PackageId>
     <Title>Confluent.Apache.Avro.test</Title>
