@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -142,7 +142,14 @@ namespace Avro.Specific
                     if (assembly.FullName.StartsWith("MonoDevelop.NUnit"))
                         continue;
 
-                    types = assembly.GetTypes();
+                    try
+                    {
+                        types = assembly.GetTypes();
+                    }
+                    catch
+                    {
+                        continue;
+                    }
 
                     // Change the search to look for Types by both NAME and FULLNAME
                     foreach (Type t in types)
