@@ -26,7 +26,7 @@
     <Title>Confluent.Apache.Avro.perf</Title>
     <AssemblyName>Confluent.Apache.Avro.perf</AssemblyName>
     <VersionPrefix>1.7.7.5</VersionPrefix>
-    <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

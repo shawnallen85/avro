@@ -26,8 +26,10 @@
     <Title>Confluent.Apache.Avro.AvroGen</Title>
     <AssemblyName>avrogen</AssemblyName>
     <VersionPrefix>1.7.7.5</VersionPrefix>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>avrogen</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
