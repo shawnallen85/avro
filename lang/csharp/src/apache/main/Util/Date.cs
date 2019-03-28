@@ -58,5 +58,14 @@ namespace Avro.Util
         {
             return nullible ? "System.Nullable<DateTime>" : typeof(DateTime).ToString();
         }
+
+        /// <summary>
+        /// Determines if a given object is an instance of the logical Date.
+        /// </summary>
+        /// <param name="logicalValue">The logical value to test.</param>
+        public override bool IsInstanceOfLogicalType(object logicalValue)
+        {
+            return logicalValue is DateTime;
+        }
     }
 }

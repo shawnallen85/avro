@@ -46,5 +46,11 @@ namespace Avro.Util
         /// </summary>
         /// <param name="nullible">A flag indicating whether it should be nullible.</param>
         public abstract string GetCSharpTypeName(bool nullible);
+
+        /// <summary>
+        /// Determines if a given object is an instance of the logical type.
+        /// </summary>
+        /// <param name="logicalValue">The logical value to test.</param>
+        public abstract bool IsInstanceOfLogicalType(object logicalValue);
     }
 }

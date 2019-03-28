@@ -217,6 +217,7 @@ namespace Avro
                 case Schema.Type.Double:
                 case Schema.Type.Bytes:
                 case Schema.Type.String:
+                case Schema.Type.Logical:
                     break;
 
                 case Schema.Type.Enumeration:
