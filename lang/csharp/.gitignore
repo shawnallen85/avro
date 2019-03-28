@@ -53,3 +53,6 @@ obj/
 
 #Test results
 TestResult.xml
+
+#MacOS
+.DS_Store

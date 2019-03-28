@@ -108,6 +108,12 @@ namespace Avro.Test.Generic
             test(schema, mkMap(values));
         }
 
+        [TestCase()]
+        public void TestLogical_Date()
+        {
+            test("{\"type\": \"int\", \"logicalType\": \"date\"}", DateTime.UtcNow.Date);
+        }
+
         [TestCase("[{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}, \"string\"]",
             "{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}",
             new object[] { "f1", "v1" })]
