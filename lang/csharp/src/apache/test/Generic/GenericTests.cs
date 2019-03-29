@@ -138,6 +138,18 @@ namespace Avro.Test.Generic
             test("{\"type\": \"long\", \"logicalType\": \"timestamp-micros\"}", new DateTime(1990, 1, 1, 14, 15, 30));
         }
 
+        [TestCase()]
+        public void TestLogical_Decimal_Bytes()
+        {
+            test("{\"type\": \"bytes\", \"logicalType\": \"decimal\"}", 12345678912345.55M);
+        }
+
+        [TestCase()]
+        public void TestLogical_Decimal_Fixed()
+        {
+            test("{\"type\": {\"type\": \"fixed\", \"size\": 16, \"name\": \"n\"}, \"logicalType\": \"decimal\"}", 12345678912345.55M);
+        }
+
         [TestCase("[{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}, \"string\"]",
             "{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}",
             new object[] { "f1", "v1" })]

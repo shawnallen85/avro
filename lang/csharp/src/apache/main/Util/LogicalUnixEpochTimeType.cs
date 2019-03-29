@@ -20,7 +20,7 @@ using System;
 namespace Avro.Util
 {
     /// <summary>
-    /// Base for all logical type implementations that are based on the Unix Epoch time.
+    /// Base for all logical type implementations that are based on the Unix Epoch date/time.
     /// </summary>
     public abstract class LogicalUnixEpochType<T> : LogicalType
     {
@@ -53,7 +53,7 @@ namespace Avro.Util
         }
 
         /// <summary>
-        /// Determines if a given object is an instance of the logical Date.
+        /// Determines if a given object is an instance of the logical Unix Epoch based date/time.
         /// </summary>
         /// <param name="logicalValue">The logical value to test.</param>
         public override bool IsInstanceOfLogicalType(object logicalValue)
