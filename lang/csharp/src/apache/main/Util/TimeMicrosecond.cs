@@ -20,48 +20,48 @@ using System;
 namespace Avro.Util
 {
     /// <summary>
-    /// The 'time-millis' logical type.
+    /// The 'time-micros' logical type.
     /// </summary>
-    public class TimeMillisecond : LogicalUnixEpochType<TimeSpan>
+    public class TimeMicrosecond : LogicalUnixEpochType<TimeSpan>
     {
         /// <summary>
-        /// The logical type name for TimeMillisecond.
+        /// The logical type name for TimeMicrosecond.
         /// </summary>
-        public static readonly string LogicalTypeName = "time-millis";
+        public static readonly string LogicalTypeName = "time-micros";
 
         /// <summary>
-        /// Initializes a new TimeMillisecond logical type.
+        /// Initializes a new TimeMicrosecond logical type.
         /// </summary>
-        public TimeMillisecond() : base(LogicalTypeName)
+        public TimeMicrosecond() : base(LogicalTypeName)
         { }
 
         /// <summary>
-        /// Applies 'time-millis' logical type validation for a given logical schema.
+        /// Applies 'time-micros' logical type validation for a given logical schema.
         /// </summary>
         /// <param name="schema">The schema to be validated.</param>
         public override void ValidateSchema(LogicalSchema schema)
         {
-            if (Schema.Type.Int != schema.BaseSchema.Tag)
-                throw new AvroTypeException("'time-millis' can only be used with an underlying int type");
+            if (Schema.Type.Long != schema.BaseSchema.Tag)
+                throw new AvroTypeException("'time-micros' can only be used with an underlying long type");
         }
 
         /// <summary>
-        /// Converts a logical TimeMillisecond to an integer representing the number of milliseconds after midnight.
+        /// Converts a logical TimeMicrosecond to a long representing the number of microseconds after midnight.
         /// </summary>
         /// <param name="logicalValue">The logical time to convert.</param>
         public override object ConvertToBaseValue(object logicalValue)
         {
             var time = (TimeSpan)logicalValue;
-            return (int)(time - UnixEpocDateTime.TimeOfDay).TotalMilliseconds;
+            return (long)(time - UnixEpocDateTime.TimeOfDay).TotalMilliseconds * 1000;
         }
 
         /// <summary>
-        /// Convers an integer representing the number of milliseconds after midnight to a logical TimeMillisecond.
+        /// Convers a long representing the number of microseconds after midnight to a logical TimeMicrosecond.
         /// </summary>
-        /// <param name="baseValue">The number of milliseconds after midnight.</param>
+        /// <param name="baseValue">The number of microseconds after midnight.</param>
         public override object ConvertToLogicalValue(object baseValue)
         {
-            var noMs = (int)baseValue;
+            var noMs = (long)baseValue / 1000;
             return UnixEpocDateTime.TimeOfDay.Add(TimeSpan.FromMilliseconds(noMs));
         }
     }

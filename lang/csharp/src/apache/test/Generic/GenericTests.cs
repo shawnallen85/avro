@@ -120,6 +120,12 @@ namespace Avro.Test.Generic
             test("{\"type\": \"int\", \"logicalType\": \"time-millis\"}", new TimeSpan(3, 0, 0));
         }
 
+        [TestCase()]
+        public void TestLogical_TimeMicrosecond()
+        {
+            test("{\"type\": \"long\", \"logicalType\": \"time-micros\"}", new TimeSpan(3, 0, 0));
+        }
+
         [TestCase("[{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}, \"string\"]",
             "{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}",
             new object[] { "f1", "v1" })]
