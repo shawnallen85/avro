@@ -20,49 +20,49 @@ using System;
 namespace Avro.Util
 {
     /// <summary>
-    /// The 'date' logical type.
+    /// The 'timestamp-micros' logical type.
     /// </summary>
-    public class Date : LogicalUnixEpochType<DateTime>
+    public class TimestampMicrosecond : LogicalUnixEpochType<DateTime>
     {
         /// <summary>
-        /// The logical type name for Date.
+        /// The logical type name for TimestampMicrosecond.
         /// </summary>
-        public static readonly string LogicalTypeName = "date";
+        public static readonly string LogicalTypeName = "timestamp-micros";
 
         /// <summary>
-        /// Initializes a new Date logical type.
+        /// Initializes a new TimestampMicrosecond logical type.
         /// </summary>
-        public Date() : base(LogicalTypeName)
+        public TimestampMicrosecond() : base(LogicalTypeName)
         { }
 
         /// <summary>
-        /// Applies 'date' logical type validation for a given logical schema.
+        /// Applies 'timestamp-micros' logical type validation for a given logical schema.
         /// </summary>
         /// <param name="schema">The schema to be validated.</param>
         public override void ValidateSchema(LogicalSchema schema)
         {
-            if (Schema.Type.Int != schema.BaseSchema.Tag)
-                throw new AvroTypeException("'date' can only be used with an underlying int type");
+            if (Schema.Type.Long != schema.BaseSchema.Tag)
+                throw new AvroTypeException("'timestamp-micros' can only be used with an underlying long type");
         }
 
         /// <summary>
-        /// Converts a logical Date to an integer representing the number of days since the Unix Epoch.
+        /// Converts a logical TimestampMicrosecond to a long representing the number of microseconds since the Unix Epoch.
         /// </summary>
         /// <param name="logicalValue">The logical date to convert.</param>
         public override object ConvertToBaseValue(object logicalValue)
         {
-            var date = ((DateTime)logicalValue).ToUniversalTime().Date;
-            return (date - UnixEpocDate).Days;
+            var date = ((DateTime)logicalValue).ToUniversalTime();
+            return (long)((date - UnixEpocDateTime).TotalMilliseconds * 1000);
         }
 
         /// <summary>
-        /// Convers an integer representing the number of days since the Unix Epoch to a logical Date.
+        /// Convers a long representing the number of microseconds since the Unix Epoch to a logical TimestampMicrosecond.
         /// </summary>
-        /// <param name="baseValue">The number of days since the Unix Epoch.</param>
+        /// <param name="baseValue">The number of microseconds since the Unix Epoch.</param>
         public override object ConvertToLogicalValue(object baseValue)
         {
-            var noDays = (int)baseValue;
-            return UnixEpocDate.AddDays(noDays);
+            var noMs = (long)baseValue / 1000;
+            return UnixEpocDateTime.AddMilliseconds(noMs);
         }
     }
 }

@@ -38,7 +38,9 @@ namespace Avro.Util
             {
                 { Date.LogicalTypeName, new Date() },
                 { TimeMillisecond.LogicalTypeName, new TimeMillisecond() },
-                { TimeMicrosecond.LogicalTypeName, new TimeMicrosecond() }
+                { TimeMicrosecond.LogicalTypeName, new TimeMicrosecond() },
+                { TimestampMillisecond.LogicalTypeName, new TimestampMillisecond() },
+                { TimestampMicrosecond.LogicalTypeName, new TimestampMicrosecond() }
             };
         }
 

@@ -126,6 +126,18 @@ namespace Avro.Test.Generic
             test("{\"type\": \"long\", \"logicalType\": \"time-micros\"}", new TimeSpan(3, 0, 0));
         }
 
+        [TestCase()]
+        public void TestLogical_TimestampMillisecond()
+        {
+            test("{\"type\": \"long\", \"logicalType\": \"timestamp-millis\"}", new DateTime(1990, 1, 1, 14, 15, 30));
+        }
+
+        [TestCase()]
+        public void TestLogical_TimestampMicrosecond()
+        {
+            test("{\"type\": \"long\", \"logicalType\": \"timestamp-micros\"}", new DateTime(1990, 1, 1, 14, 15, 30));
+        }
+
         [TestCase("[{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}, \"string\"]",
             "{\"type\":\"record\", \"name\":\"n\", \"fields\":[{\"name\":\"f1\", \"type\":\"string\"}]}",
             new object[] { "f1", "v1" })]
