@@ -18,7 +18,6 @@
  
 namespace Avro.Util
 {
-
     /// <summary>
     /// Base for all logical type implementations.
     /// </summary>

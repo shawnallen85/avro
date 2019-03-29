@@ -36,7 +36,8 @@ namespace Avro.Util
         {
             _logicalTypes = new Dictionary<string, LogicalType>()
             {
-                { Date.LogicalTypeName, new Date() }
+                { Date.LogicalTypeName, new Date() },
+                { TimeMillisecond.LogicalTypeName, new TimeMillisecond() }
             };
         }
 
