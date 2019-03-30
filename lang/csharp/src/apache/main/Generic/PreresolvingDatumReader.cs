@@ -351,7 +351,7 @@ namespace Avro.Generic
         private ReadItem ResolveLogical(LogicalSchema writerSchema, LogicalSchema readerSchema)
         {
             var baseReader = ResolveReader(writerSchema.BaseSchema, readerSchema.BaseSchema);
-            return (r, d) => readerSchema.LogicalType.ConvertToLogicalValue(baseReader(r, d));
+            return (r, d) => readerSchema.LogicalType.ConvertToLogicalValue(baseReader(r, d), readerSchema);
         }
 
         private ReadItem ResolveFixed(FixedSchema writerSchema, FixedSchema readerSchema)

@@ -49,7 +49,8 @@ namespace Avro.Util
         /// Converts a logical TimeMillisecond to an integer representing the number of milliseconds after midnight.
         /// </summary>
         /// <param name="logicalValue">The logical time to convert.</param>
-        public override object ConvertToBaseValue(object logicalValue)
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
+        public override object ConvertToBaseValue(object logicalValue, LogicalSchema schema)
         {
             var time = (TimeSpan)logicalValue;
             return (int)(time - UnixEpocDateTime.TimeOfDay).TotalMilliseconds;
@@ -59,7 +60,8 @@ namespace Avro.Util
         /// Convers an integer representing the number of milliseconds after midnight to a logical TimeMillisecond.
         /// </summary>
         /// <param name="baseValue">The number of milliseconds after midnight.</param>
-        public override object ConvertToLogicalValue(object baseValue)
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
+        public override object ConvertToLogicalValue(object baseValue, LogicalSchema schema)
         {
             var noMs = (int)baseValue;
             return UnixEpocDateTime.TimeOfDay.Add(TimeSpan.FromMilliseconds(noMs));

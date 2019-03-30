@@ -48,15 +48,17 @@ namespace Avro.Util
         /// Converts a logical value to an instance of its base type.
         /// </summary>
         /// <param name="logicalValue">The logical value to convert.</param>
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
         /// <returns>An object representing the encoded value of the base type.</returns>
-        public abstract object ConvertToBaseValue(object logicalValue);
+        public abstract object ConvertToBaseValue(object logicalValue, LogicalSchema schema);
 
         /// <summary>
         /// Converts a base value to an instance of the logical type.
         /// </summary>
         /// <param name="baseValue">The base value to convert.</param>
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
         /// <returns>An object representing the encoded value of the logical type.</returns>
-        public abstract object ConvertToLogicalValue(object baseValue);
+        public abstract object ConvertToLogicalValue(object baseValue, LogicalSchema schema);
 
         /// <summary>
         /// Retrieve the .NET type that is represented by the logical type implementation.

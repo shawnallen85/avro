@@ -206,7 +206,7 @@ namespace Avro.Generic
         protected WriteItem ResolveLogical(LogicalSchema schema)
         {
             var baseWriter = ResolveWriter(schema.BaseSchema);
-            return (d, e) => baseWriter(schema.LogicalType.ConvertToBaseValue(d), e);
+            return (d, e) => baseWriter(schema.LogicalType.ConvertToBaseValue(d, schema), e);
         }
 
         private WriteItem ResolveMap(MapSchema mapSchema)

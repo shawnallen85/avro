@@ -381,7 +381,7 @@ namespace Avro.Generic
         /// <param name="encoder">The encoder for serialization</param>
         protected virtual void WriteLogical(LogicalSchema ls, object value, Encoder encoder)
         {
-            Write(ls.BaseSchema, ls.LogicalType.ConvertToBaseValue(value), encoder);
+            Write(ls.BaseSchema, ls.LogicalType.ConvertToBaseValue(value, ls), encoder);
         }
 
         /// <summary>

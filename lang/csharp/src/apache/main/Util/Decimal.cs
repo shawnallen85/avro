@@ -16,6 +16,7 @@
 * limitations under the License.
 */
 using System;
+using Avro.Generic;
 
 namespace Avro.Util
 {
@@ -41,16 +42,17 @@ namespace Avro.Util
         /// <param name="schema">The schema to be validated.</param>
         public override void ValidateSchema(LogicalSchema schema)
         {
-            // if (Schema.Type.Bytes != schema.BaseSchema.Tag)
-            //     throw new AvroTypeException("'decimal' can only be used with an underlying bytes type");
+            if (Schema.Type.Bytes != schema.BaseSchema.Tag && Schema.Type.Fixed != schema.BaseSchema.Tag)
+                throw new AvroTypeException("'decimal' can only be used with an underlying bytes or fixed type");
         }
 
         /// <summary>
         /// Converts a logical value to an instance of its base type.
         /// </summary>
         /// <param name="logicalValue">The logical value to convert.</param>
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
         /// <returns>An object representing the encoded value of the base type.</returns>        
-        public override object ConvertToBaseValue(object logicalValue)
+        public override object ConvertToBaseValue(object logicalValue, LogicalSchema schema)
         {
             var val = (decimal)logicalValue;
             var buffer = new byte[16];
@@ -76,17 +78,22 @@ namespace Avro.Util
             buffer[14] = (byte)(valBits[3] >> 16);
             buffer[15] = (byte)(valBits[3] >> 24);
 
-            return buffer;
+            return Schema.Type.Bytes == schema.BaseSchema.Tag
+                ? (object)buffer
+                : (object)new GenericFixed((FixedSchema)schema.BaseSchema, buffer);
         }
 
         /// <summary>
         /// Converts a base value to an instance of the logical type.
         /// </summary>
         /// <param name="baseValue">The base value to convert.</param>
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
         /// <returns>An object representing the encoded value of the logical type.</returns>
-        public override object ConvertToLogicalValue(object baseValue)
+        public override object ConvertToLogicalValue(object baseValue, LogicalSchema schema)
         {
-            var buffer = (byte[])baseValue;
+            var buffer = Schema.Type.Bytes == schema.BaseSchema.Tag
+                ? (byte[])baseValue
+                : ((GenericFixed)baseValue).Value;
             var valBits = new int[4];
 
             valBits[0] = buffer[0] | (buffer[1] << 8) | (buffer[2] << 16) | (buffer[3] << 24);

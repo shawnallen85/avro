@@ -523,7 +523,9 @@ namespace Avro.Generic
         /// <returns>The deserialized object.</returns>
         protected virtual object ReadLogical(object reuse, LogicalSchema writerSchema, Schema readerSchema, Decoder d)
         {
-            return writerSchema.LogicalType.ConvertToLogicalValue(Read(reuse, writerSchema.BaseSchema, readerSchema, d));
+            LogicalSchema ls = (LogicalSchema)readerSchema;
+
+            return writerSchema.LogicalType.ConvertToLogicalValue(Read(reuse, writerSchema.BaseSchema, ls.BaseSchema, d), ls);
         }
 
         /// <summary>

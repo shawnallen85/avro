@@ -49,7 +49,8 @@ namespace Avro.Util
         /// Converts a logical TimestampMillisecond to a long representing the number of milliseconds since the Unix Epoch.
         /// </summary>
         /// <param name="logicalValue">The logical date to convert.</param>
-        public override object ConvertToBaseValue(object logicalValue)
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
+        public override object ConvertToBaseValue(object logicalValue, LogicalSchema schema)
         {
             var date = ((DateTime)logicalValue).ToUniversalTime();
             return (long)((date - UnixEpocDateTime).TotalMilliseconds);
@@ -59,7 +60,8 @@ namespace Avro.Util
         /// Convers a long representing the number of milliseconds since the Unix Epoch to a logical TimestampMillisecond.
         /// </summary>
         /// <param name="baseValue">The number of milliseconds since the Unix Epoch.</param>
-        public override object ConvertToLogicalValue(object baseValue)
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
+        public override object ConvertToLogicalValue(object baseValue, LogicalSchema schema)
         {
             var noMs = (long)baseValue;
             return UnixEpocDateTime.AddMilliseconds(noMs);

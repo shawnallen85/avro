@@ -49,7 +49,8 @@ namespace Avro.Util
         /// Converts a logical Date to an integer representing the number of days since the Unix Epoch.
         /// </summary>
         /// <param name="logicalValue">The logical date to convert.</param>
-        public override object ConvertToBaseValue(object logicalValue)
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
+        public override object ConvertToBaseValue(object logicalValue, LogicalSchema schema)
         {
             var date = ((DateTime)logicalValue).ToUniversalTime().Date;
             return (date - UnixEpocDate).Days;
@@ -59,7 +60,8 @@ namespace Avro.Util
         /// Convers an integer representing the number of days since the Unix Epoch to a logical Date.
         /// </summary>
         /// <param name="baseValue">The number of days since the Unix Epoch.</param>
-        public override object ConvertToLogicalValue(object baseValue)
+        /// <param name="schema">The schema that represents the target of the conversion.</param>
+        public override object ConvertToLogicalValue(object baseValue, LogicalSchema schema)
         {
             var noDays = (int)baseValue;
             return UnixEpocDate.AddDays(noDays);
