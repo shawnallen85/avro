@@ -52,7 +52,7 @@ namespace Avro.Util
         /// <param name="schema">The schema that represents the target of the conversion.</param>
         public override object ConvertToBaseValue(object logicalValue, LogicalSchema schema)
         {
-            var date = ((DateTime)logicalValue).ToUniversalTime().Date;
+            var date = ((DateTime)logicalValue).Date;
             return (date - UnixEpocDate).Days;
         }
 

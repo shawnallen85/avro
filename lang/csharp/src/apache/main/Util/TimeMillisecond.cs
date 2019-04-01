@@ -24,6 +24,8 @@ namespace Avro.Util
     /// </summary>
     public class TimeMillisecond : LogicalUnixEpochType<TimeSpan>
     {
+        private static readonly TimeSpan _maxTime = new TimeSpan(23, 59, 59);
+
         /// <summary>
         /// The logical type name for TimeMillisecond.
         /// </summary>
@@ -53,6 +55,10 @@ namespace Avro.Util
         public override object ConvertToBaseValue(object logicalValue, LogicalSchema schema)
         {
             var time = (TimeSpan)logicalValue;
+
+            if (time > _maxTime)
+                throw new ArgumentOutOfRangeException("logicalValue", "A 'time-millis' value can only have the range '00:00:00' to '23:59:59'.");
+
             return (int)(time - UnixEpocDateTime.TimeOfDay).TotalMilliseconds;
         }
 
