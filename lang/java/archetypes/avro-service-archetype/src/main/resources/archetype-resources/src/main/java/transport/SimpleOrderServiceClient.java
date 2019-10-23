@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import org.apache.avro.AvroRemoteException;
-import org.apache.avro.ipc.NettyTransceiver;
 import org.apache.avro.ipc.Transceiver;
+import org.apache.avro.ipc.netty.NettyTransceiver;
 import org.apache.avro.ipc.specific.SpecificRequestor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ import ${package}.service.OrderProcessingService;
  */
 public class SimpleOrderServiceClient implements OrderProcessingService {
 
-  private static final Logger log = LoggerFactory.getLogger(SimpleOrderServiceEndpoint.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SimpleOrderServiceEndpoint.class);
 
   private InetSocketAddress endpointAddress;
 
@@ -55,16 +55,16 @@ public class SimpleOrderServiceClient implements OrderProcessingService {
   }
 
   public synchronized void start() throws IOException {
-    if (log.isInfoEnabled()) {
-      log.info("Starting Simple Ordering Netty client on '{}'", endpointAddress);
+    if (LOG.isInfoEnabled()) {
+      LOG.info("Starting Simple Ordering Netty client on '{}'", endpointAddress);
     }
     transceiver = new NettyTransceiver(endpointAddress);
     service = SpecificRequestor.getClient(OrderProcessingService.class, transceiver);
   }
 
   public void stop() throws IOException {
-    if (log.isInfoEnabled()) {
-      log.info("Stopping Simple Ordering Netty client on '{}'", endpointAddress);
+    if (LOG.isInfoEnabled()) {
+      LOG.info("Stopping Simple Ordering Netty client on '{}'", endpointAddress);
     }
     if (transceiver != null && transceiver.isConnected()) {
       transceiver.close();

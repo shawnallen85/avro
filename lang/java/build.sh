@@ -38,12 +38,12 @@ for target in "$@"
 do
 
 function do_dist() {
-  mvn -P dist package -DskipTests -Davro.version=$VERSION javadoc:aggregate
+  mvn -P dist package -DskipTests javadoc:aggregate
 }
 
 case "$target" in
   test)
-    mvn test
+    mvn -B test
     ;;
 
   dist)

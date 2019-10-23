@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package org.apache.avro.protobuf;
+package org.apache.avro.protobuf.noopt;
 
 message Foo {
   // all the primitive types

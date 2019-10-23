@@ -47,7 +47,8 @@ namespace Avro
             Map,
             Union,
             Fixed,
-            Error
+            Error,
+            Logical
         }
 
         /// <summary>
@@ -71,11 +72,19 @@ namespace Avro
         }
 
         /// <summary>
+        /// If this is a record, enum or fixed, returns its name, otherwise the name the primitive type. 
+        /// </summary>
+        public abstract string Name { get; }
+        
+        /// <summary>
         /// The name of this schema. If this is a named schema such as an enum, it returns the fully qualified
         /// name for the schema. For other schemas, it returns the type of the schema.
         /// </summary>
-        public abstract string Name { get; }
-
+        public virtual string Fullname 
+        {
+            get { return Name; }
+        }
+        
         /// <summary>
         /// Static class to return new instance of schema object
         /// </summary>
@@ -121,6 +130,8 @@ namespace Avro
                         return ArraySchema.NewInstance(jtok, props, names, encspace);
                     if (type.Equals("map"))
                         return MapSchema.NewInstance(jtok, props, names, encspace);
+                    if (null != jo["logicalType"]) // logical type based on a primitive
+                        return LogicalSchema.NewInstance(jtok, props, names, encspace);
 
                     Schema schema = PrimitiveSchema.NewInstance((string)type, props);
                     if (null != schema) return schema;
@@ -129,6 +140,8 @@ namespace Avro
                 }
                 else if (jtype.Type == JTokenType.Array)
                     return UnionSchema.NewInstance(jtype as JArray, props, names, encspace);
+                else if (jtype.Type == JTokenType.Object && null != jo["logicalType"]) // logical type based on a complex type
+                    return LogicalSchema.NewInstance(jtok, props, names, encspace);
             }
             throw new AvroTypeException("Invalid JSON for schema: " + jtok);
         }

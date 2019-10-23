@@ -20,16 +20,16 @@ package org.apache.avro.data;
 
 import org.apache.avro.Conversion;
 import org.apache.avro.LogicalType;
+import org.apache.avro.LogicalTypes;
 import org.apache.avro.Schema;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
+
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.concurrent.TimeUnit;
 
 public class TimeConversions {
   public static class DateConversion extends Conversion<LocalDate> {
-    private static final LocalDate EPOCH_DATE = new LocalDate(1970, 1, 1);
 
     @Override
     public Class<LocalDate> getConvertedType() {
@@ -43,16 +43,23 @@ public class TimeConversions {
 
     @Override
     public LocalDate fromInt(Integer daysFromEpoch, Schema schema, LogicalType type) {
-      return EPOCH_DATE.plusDays(daysFromEpoch);
+      return LocalDate.ofEpochDay(daysFromEpoch);
     }
 
     @Override
     public Integer toInt(LocalDate date, Schema schema, LogicalType type) {
-      return Days.daysBetween(EPOCH_DATE, date).getDays();
+      long epochDays = date.toEpochDay();
+
+      return (int) epochDays;
+    }
+
+    @Override
+    public Schema getRecommendedSchema() {
+      return LogicalTypes.date().addToSchema(Schema.create(Schema.Type.INT));
     }
   }
 
-  public static class TimeConversion extends Conversion<LocalTime> {
+  public static class TimeMillisConversion extends Conversion<LocalTime> {
     @Override
     public Class<LocalTime> getConvertedType() {
       return LocalTime.class;
@@ -64,13 +71,23 @@ public class TimeConversions {
     }
 
     @Override
+    public String adjustAndSetValue(String varName, String valParamName) {
+      return varName + " = " + valParamName + ".truncatedTo(java.time.temporal.ChronoUnit.MILLIS);";
+    }
+
+    @Override
     public LocalTime fromInt(Integer millisFromMidnight, Schema schema, LogicalType type) {
-      return LocalTime.fromMillisOfDay(millisFromMidnight);
+      return LocalTime.ofNanoOfDay(TimeUnit.MILLISECONDS.toNanos(millisFromMidnight));
     }
 
     @Override
     public Integer toInt(LocalTime time, Schema schema, LogicalType type) {
-      return time.millisOfDay().get();
+      return (int) TimeUnit.NANOSECONDS.toMillis(time.toNanoOfDay());
+    }
+
+    @Override
+    public Schema getRecommendedSchema() {
+      return LogicalTypes.timeMillis().addToSchema(Schema.create(Schema.Type.INT));
     }
   }
 
@@ -86,22 +103,30 @@ public class TimeConversions {
     }
 
     @Override
-    public LocalTime fromLong(Long microsFromMidnight, Schema schema, LogicalType type) {
-      return LocalTime.fromMillisOfDay(microsFromMidnight / 1000);
+    public String adjustAndSetValue(String varName, String valParamName) {
+      return varName + " = " + valParamName + ".truncatedTo(java.time.temporal.ChronoUnit.MICROS);";
     }
-  }
 
-  public static class LossyTimeMicrosConversion extends TimeMicrosConversion {
+    @Override
+    public LocalTime fromLong(Long microsFromMidnight, Schema schema, LogicalType type) {
+      return LocalTime.ofNanoOfDay(TimeUnit.MICROSECONDS.toNanos(microsFromMidnight));
+    }
+
     @Override
     public Long toLong(LocalTime time, Schema schema, LogicalType type) {
-      return 1000 * (long) time.millisOfDay().get();
+      return TimeUnit.NANOSECONDS.toMicros(time.toNanoOfDay());
+    }
+
+    @Override
+    public Schema getRecommendedSchema() {
+      return LogicalTypes.timeMicros().addToSchema(Schema.create(Schema.Type.LONG));
     }
   }
 
-  public static class TimestampConversion extends Conversion<DateTime> {
+  public static class TimestampMillisConversion extends Conversion<Instant> {
     @Override
-    public Class<DateTime> getConvertedType() {
-      return DateTime.class;
+    public Class<Instant> getConvertedType() {
+      return Instant.class;
     }
 
     @Override
@@ -110,20 +135,30 @@ public class TimeConversions {
     }
 
     @Override
-    public DateTime fromLong(Long millisFromEpoch, Schema schema, LogicalType type) {
-      return new DateTime(millisFromEpoch, DateTimeZone.UTC);
+    public String adjustAndSetValue(String varName, String valParamName) {
+      return varName + " = " + valParamName + ".truncatedTo(java.time.temporal.ChronoUnit.MILLIS);";
     }
 
     @Override
-    public Long toLong(DateTime timestamp, Schema schema, LogicalType type) {
-      return timestamp.getMillis();
+    public Instant fromLong(Long millisFromEpoch, Schema schema, LogicalType type) {
+      return Instant.ofEpochMilli(millisFromEpoch);
+    }
+
+    @Override
+    public Long toLong(Instant timestamp, Schema schema, LogicalType type) {
+      return timestamp.toEpochMilli();
+    }
+
+    @Override
+    public Schema getRecommendedSchema() {
+      return LogicalTypes.timestampMillis().addToSchema(Schema.create(Schema.Type.LONG));
     }
   }
 
-  public static class TimestampMicrosConversion extends Conversion<DateTime> {
+  public static class TimestampMicrosConversion extends Conversion<Instant> {
     @Override
-    public Class<DateTime> getConvertedType() {
-      return DateTime.class;
+    public Class<Instant> getConvertedType() {
+      return Instant.class;
     }
 
     @Override
@@ -132,15 +167,38 @@ public class TimeConversions {
     }
 
     @Override
-    public DateTime fromLong(Long microsFromEpoch, Schema schema, LogicalType type) {
-      return new DateTime(microsFromEpoch / 1000, DateTimeZone.UTC);
+    public String adjustAndSetValue(String varName, String valParamName) {
+      return varName + " = " + valParamName + ".truncatedTo(java.time.temporal.ChronoUnit.MICROS);";
     }
-  }
 
-  public static class LossyTimestampMicrosConversion extends TimestampMicrosConversion {
     @Override
-    public Long toLong(DateTime timestamp, Schema schema, LogicalType type) {
-      return 1000 * timestamp.getMillis();
+    public Instant fromLong(Long microsFromEpoch, Schema schema, LogicalType type) {
+      long epochSeconds = microsFromEpoch / (1_000_000);
+      long nanoAdjustment = (microsFromEpoch % (1_000_000)) * 1_000;
+
+      return Instant.ofEpochSecond(epochSeconds, nanoAdjustment);
+    }
+
+    @Override
+    public Long toLong(Instant instant, Schema schema, LogicalType type) {
+      long seconds = instant.getEpochSecond();
+      int nanos = instant.getNano();
+
+      if (seconds < 0 && nanos > 0) {
+        long micros = Math.multiplyExact(seconds + 1, 1_000_000);
+        long adjustment = (nanos / 1_000L) - 1_000_000;
+
+        return Math.addExact(micros, adjustment);
+      } else {
+        long micros = Math.multiplyExact(seconds, 1_000_000);
+
+        return Math.addExact(micros, nanos / 1_000);
+      }
+    }
+
+    @Override
+    public Schema getRecommendedSchema() {
+      return LogicalTypes.timestampMicros().addToSchema(Schema.create(Schema.Type.LONG));
     }
   }
 }

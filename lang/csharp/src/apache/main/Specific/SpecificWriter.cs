@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -67,7 +67,7 @@ namespace Avro.Specific
                 }
                 catch (Exception ex)
                 {
-                    throw new AvroException(ex.Message + " in field " + field.Name);
+                    throw new AvroException(ex.Message + " in field " + field.Name, ex);
                 }
             }
         }
@@ -208,6 +208,8 @@ namespace Avro.Specific
                 case Schema.Type.Fixed:
                     return obj is SpecificFixed &&
                            (((obj as SpecificFixed).Schema) as FixedSchema).SchemaName.Equals((sc as FixedSchema).SchemaName);
+                case Schema.Type.Logical:
+                    return (sc as LogicalSchema).LogicalType.IsInstanceOfLogicalType(obj);
                 default:
                     throw new AvroException("Unknown schema type: " + sc.Tag);
             }

@@ -20,6 +20,8 @@ cmake_minimum_required (VERSION 2.6)
 
 set (CMAKE_LEGACY_CYGWIN_WIN32 0)
 
+cmake_policy (SET CMP0042 NEW)
+
 if (NOT DEFINED CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_NO_WARNINGS)
     set (CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS_NO_WARNINGS ON)
 endif()
@@ -39,14 +41,18 @@ project (Avro-cpp)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
 
 if (WIN32 AND NOT CYGWIN AND NOT MSYS)
-add_definitions (/EHa)
-add_definitions (
-    -DBOOST_REGEX_DYN_LINK
-    -DBOOST_FILESYSTEM_DYN_LINK
-    -DBOOST_SYSTEM_DYN_LINK
-    -DBOOST_IOSTREAMS_DYN_LINK
-    -DBOOST_PROGRAM_OPTIONS_DYN_LINK
-    -DBOOST_ALL_NO_LIB)
+    add_definitions (/EHa)
+    add_definitions (
+        -DNOMINMAX
+        -DBOOST_REGEX_DYN_LINK
+        -DBOOST_FILESYSTEM_DYN_LINK
+        -DBOOST_SYSTEM_DYN_LINK
+        -DBOOST_IOSTREAMS_DYN_LINK
+        -DBOOST_PROGRAM_OPTIONS_DYN_LINK
+        -DBOOST_ALL_NO_LIB)
+else()
+# Replease c++11 with c++17 below in case C++ 17 should be used
+    add_definitions(-std=c++11 -fPIC)
 endif()
 
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -60,7 +66,7 @@ endif ()
 
 
 find_package (Boost 1.38 REQUIRED
-    COMPONENTS filesystem system program_options iostreams)
+    COMPONENTS filesystem iostreams program_options regex system)
 
 find_package(Snappy)
 if (SNAPPY_FOUND)
@@ -78,7 +84,7 @@ add_definitions (${Boost_LIB_DIAGNOSTIC_DEFINITIONS})
 include_directories (api ${CMAKE_CURRENT_BINARY_DIR} ${Boost_INCLUDE_DIRS})
 
 set (AVRO_SOURCE_FILES
-        impl/Compiler.cc impl/Node.cc
+        impl/Compiler.cc impl/Node.cc impl/LogicalType.cc
         impl/NodeImpl.cc impl/ResolverSchema.cc impl/Schema.cc
         impl/Types.cc impl/ValidSchema.cc impl/Zigzag.cc
         impl/BinaryEncoder.cc impl/BinaryDecoder.cc
