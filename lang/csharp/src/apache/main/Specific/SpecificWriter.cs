@@ -1,4 +1,4 @@
-/**
+/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,7 +30,17 @@ namespace Avro.Specific
     /// <typeparam name="T">type name of specific object</typeparam>
     public class SpecificWriter<T> : GenericWriter<T>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpecificWriter{T}"/> class.
+        /// </summary>
+        /// <param name="schema">Schema to use when writing.</param>
         public SpecificWriter(Schema schema) : base(new SpecificDefaultWriter(schema)) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpecificWriter{T}"/> class using the
+        /// provided <see cref="SpecificDefaultWriter"/>.
+        /// </summary>
+        /// <param name="writer">Default writer to use.</param>
         public SpecificWriter(SpecificDefaultWriter writer) : base(writer) { }
     }
 
@@ -67,7 +77,7 @@ namespace Avro.Specific
                 }
                 catch (Exception ex)
                 {
-                    throw new AvroException(ex.Message + " in field " + field.Name, ex);
+                    throw new AvroException($"{ex.Message} in field {field.Name}", ex);
                 }
             }
         }
@@ -169,7 +179,7 @@ namespace Avro.Specific
                     return;
                 }
             }
-            throw new AvroException("Cannot find a match for " + value.GetType() + " in " + us);
+            throw new AvroException($"Cannot find a match for {value.GetType()} in {us}");
         }
 
         protected override bool Matches(Schema sc, object obj)
@@ -196,7 +206,7 @@ namespace Avro.Specific
                 case Schema.Type.Error:
                 case Schema.Type.Record:
                     return obj is ISpecificRecord &&
-                           (((obj as ISpecificRecord).Schema) as RecordSchema).SchemaName.Equals((sc as RecordSchema).SchemaName);
+                           ((obj as ISpecificRecord).Schema as RecordSchema).SchemaName.Equals((sc as RecordSchema).SchemaName);
                 case Schema.Type.Enumeration:
                     return obj.GetType().IsEnum && (sc as EnumSchema).Symbols.Contains(obj.ToString());
                 case Schema.Type.Array:
@@ -211,7 +221,7 @@ namespace Avro.Specific
                 case Schema.Type.Logical:
                     return (sc as LogicalSchema).LogicalType.IsInstanceOfLogicalType(obj);
                 default:
-                    throw new AvroException("Unknown schema type: " + sc.Tag);
+                    throw new AvroException($"Unknown schema type: {sc.Tag}");
             }
         }
     }
